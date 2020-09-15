@@ -1,12 +1,19 @@
+<?php
+session_start();
+if($_SESSION['logged_in'] != 1 ){
+        header("location: index.php");
+}else
+{
+   ?>
  <!DOCTYPE html>
  <html>
- <body>
+ <body style="justify-content: center;">
  	<head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="css/profile.css" />
 		<title>Leaderboard</title>
 	</head>
- <?php
+<?php
 include 'db.php';
 $sql = "SELECT usernamesql,score FROM users ORDER BY score DESC";
 $query = $conn->query($sql);
@@ -24,6 +31,6 @@ $rank = 1;
         }
         }
         else echo "Database is empty";
-?>
+}?>
 <body>
 </html>

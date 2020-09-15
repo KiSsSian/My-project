@@ -2,6 +2,10 @@
 include 'db.php';
 session_start();
 
+if($_SESSION['logged_in'] != 1 || $_GET['name'] != 'admin' ){
+		header("location: index.php");
+}else
+	{
 if(isset($_POST['regintrebare'])){
 	$question_number = $_POST['question_number'];
 	$question_text = $_POST['question_text'];
@@ -60,7 +64,7 @@ $next = $total+1;
 			<h1>PHP Quizzer</h1>
 		</div>
 	</header>
-	<main>
+
 		<div class="admincurrent">
 			<h2>Adauga o intrebare</h2>
 		<?php
@@ -69,7 +73,7 @@ $next = $total+1;
 		?>
 		</div>
 			<form method="POST" action="admin.php">
-				<div class="container">
+				
 				<p>
 					<label>Numarul intrebarii: </label>
 					<input type="number" value="<?php echo $next; ?>" name="question_number" />
@@ -94,18 +98,19 @@ $next = $total+1;
 					<label>Varianta #4: </label>
 					<input type="text" name="choice4" />
 				</p>
-								<p>
+				<p>
 					<label>Varianta corecta: </label>
 					<input type="number" name="correct_choice" />
 				</p>
-				<input type="submit" value="SUBMIT" name="regintrebare">
+				<input type="submit" value="SUBMIT">
 			</form>
-		</div>
-	</main>
+		
+	
 	<footer>
-		<div class="container">
+		<div>
 			Copyright &copy; 2020, PHP Quizzer
 		</div>
 	</footer>
 </body>
 </html>
+<?php } ?> 

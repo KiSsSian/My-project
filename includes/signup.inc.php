@@ -42,40 +42,54 @@ Verificam daca datele introduse de utilizator in input-ul din index.php
 		exit();
 	}
 	
-		$sql = "SELECT * FROM users WHERE email=? OR usernamesql=? LIMIT 1" or die($mysqli->error());
+		$sql = "SELECT * FROM users WHERE email=? OR usernamesql=?" or die($mysqli->error());
 		$stmt = $conn->prepare($sql);
     	$stmt->bind_param('ss', $email, $username);
     	$stmt->execute();
-    	$result = $stmt->get_result();
-    	
-		if ( $result->num_rows > 0 ) { 
+    	$found = $stmt->fetch();
+    	   	
+    	 if($found) { 
 			header("location: ../index.php?error=usernameTaken");
 		}
+	
 		else{
 
     		$sql = "INSERT INTO users (usernamesql, email, password) VALUES (?,?,?)";
 		
 			if($stmt = $conn->prepare($sql)){
+				
 					$hash = password_hash($password, PASSWORD_DEFAULT);
 					$stmt->bind_param("sss", $username, $email, $hash);
 					$stmt->execute();
 
 					session_start();
-					 $_SESSION['uemail'] = $email; 
-					 $_SESSION['username'] = $username;
-					 
-					header("location: ../profile.php?login=".$_SESSION['username']);
-					exit();
+					
+					 $_SESSION['active'] = 0;
+					 $_SESSION['logged_in'] = true;
+							
+											 
+					 $to=$email;
+
+					 $subject= "Verificare cont localhost.com";
+
+					 $body='Buna'.$username.',Multumim ca te-ai inregistrat!Apasa pe acest link pentru a-ti activa contul: http://localhost/quizzer/verify.php?email='.$email.'&hash='.$hash.".";  
+					$headers = "From: drcristian92@gmail.com";
+
+					if (mail($to, $subject, $body, $headers)) {
+						$_SESSION['username'] = $username;
+						$_SESSION['uemail'] = $email;
+						$_SESSION['message'] = "Un mail de confirmare a fost trimis pe adresa: $email, te rog sa iti verifici mail-ul apasand pe link-ul din mail!";
+					   header("location: ../profile.php?login=".$username);
+					 } 
+					else {
+					    echo "Email sending failed...";
+					}
+				}
+
 					
 
-			}}}
-			else {
-				$conn->error();
-    			exit();
-			}
+			
+		}
+	}
 		
-	
-	
-
-
 ?>

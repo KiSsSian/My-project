@@ -1,30 +1,38 @@
 <?php
-require 'db.php';
+include 'db.php';
+
 session_start();
 
+if($_SESSION['logged_in'] != 1){
+		header("location: index.php");
+}else
+	{
 echo '<b>Username: </b>'.$_SESSION['username']; 
 
-//----n are valoarea 1 pe care o vom atribui variabilei $number----------------------------------------------------------------
-//---- variabila $number o folosim pentru a itera baza de date de doua ori, o data pentru intrebare si o data pentru variantele de raspuns
-//---- o vom folosi pentru a afisa dinamic la ce intrebare suntem
-//---- si o vom mai folosi pentru a-i da valoare input-ului (1 la inceput) si o vom trimite prin metoda POST din formular spre process.php unde o vom incrementa cu +1 si o vom numi $next pentru a obtine n=2 in URL 
-$number = (int) $_GET['n'];
+		if(isset($_POST['capitol']))
+		{
+		list($chapter_selected,$chapter_answers) = explode('|', $_POST['capitol']);
+		$_SESSION['raspunsuri_capitol'] = $chapter_answers;
+		$_SESSION['x'] = $chapter_selected;
+		$_SESSION['y'] = $chapter_answers;
+		}
 
-//------iteram baza de date pentru a obtine numarul intrebarii ce e egal cu numarul n din URL si pentru a afisa intrebarea
+$chapter_selected2=$_SESSION['x'];
+$chapter_answers2=$_SESSION['y'];
 
-$sql="SELECT * FROM questions WHERE question_number = $number";
+$number = $_GET['n'];
+
+$sql="SELECT * FROM $chapter_selected2";
 $query = $conn->query($sql) or die($conn->error.__LINE__);
 $result = $query->fetch_assoc();
+$num_rows = $query->num_rows;
+$_SESSION['total_questions'] = $num_rows;
 
-//------iteram baza de date pentru a avea acces la PK pentru a-l folosi in while ----------------------------------------------
 
-$sql="SELECT * FROM choices WHERE question_number = $number";
-$choices = $conn->query($sql) or die($conn->error.__LINE__);
+$sql = "SELECT * FROM $chapter_answers2 WHERE answer_FK=$number ";
+$choices = $conn->query($sql) or die($conn->error.__LINE__); 
+
 ?>
-
-<!---------------------------------------------------------------------------------------------------------------------------->
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,36 +45,46 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 		<div class="container">
 			<h1>PHP Quizzer</h1>
 		</div>
+	</header>
 	<main>	
-		<div class="container">
-			<div class="current"> Question <?php echo $number;?> out of <?php echo $_SESSION['total'];?> </div>
+		<div>
+			<div class="current"> Question <?php echo $number;?> out of <?php echo $num_rows;?> </div>
 			<p>
-			<?php echo $result['text']; ?>
-						</p>
-				<form method="POST" action="process.php">
-					<ul>
+			<?php 
+			
+			$sql="SELECT question_text FROM $chapter_selected2 WHERE id_question=$number";
+			$query = $conn->query($sql) or die($conn->error.__LINE__);
+			$result = $query->fetch_assoc();
 
-			<!----------Selectam fiecare rand din tabel pana obtinem o valoare NULL si o redam ca input radio in HTML---------->
-			<!-------------Se va atribui fiecarui input valoarea id-ului din tabelul choices, asa stim alegerea facuta de utilizator, pe care o vom compara mai departe cu raspunsul corect--------------------------------------------------->
-			<!--afiseaza rand cu rand variantele de raspuns din tabelul choices ce are question_number FK egal cu question_number din tabelul questions ce e PK-->
-			<!--$row este un associative array de care ne folosim sa dam valoare input-ului si sa afisam textul din tabel ------>
-						<?php while($row = $choices->fetch_assoc()): ?> 
-						<li><input type="radio" name="choice" value="<?php echo $row['id'];?>"><?php echo $row['text'];?></li>
-						<?php endwhile; ?>
+				echo $result['question_text']; ?>
+						</p>
+				<form method="POST" action="process.php?n=<?= $number; ?>">
+					<ul>
+						<?php $i=0; ?>	
+						<?php while($row = $choices->fetch_assoc()){ 
+						?> 
+						
+					<li><input type="hidden" name="choice[<?= $i ?>]" value="0"></li>	
+					<li><input type="checkbox" name="choice[<?= $i ?>]" value="1"><?= $row['choice'];?></li>
+
+						<?php $i++;
+
+					};
+					}
+					?>
 							
 					</ul>
 	
-		<input type="submit" value="SUBMIT">
-		<input type="hidden" name="number" value="<?php echo $number;?>"> <!--de acest input se va folosi process.php -->
+		<input type="submit" value="SUBMIT" class="start">
+		<input type="hidden" name="number" value="<?php echo $number;?>">
 		</form>	
 	</div>
 	</main>
-
+</body>
 	<footer>
 			<div class="footer">
 				Copyright &copy; 2020, PHP Quizzer
 			</div>
 	</footer>
-	</header>
-</body>
+
 </html>

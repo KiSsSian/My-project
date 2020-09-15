@@ -1,17 +1,21 @@
 <?php
 require 'db.php';
 session_start();
+	if($_SESSION['logged_in'] != 1){
+		header("location: index.php");
+}else
+	{
 //-----------------------------------------------------------------------------------------------------------
 $sql = "SELECT usernamesql FROM users 	 /*Iteram baza de date pentru a seta adminul user-ului cu id-ul=1 */
 		WHERE id=1";													
 $query = $conn->query($sql) or die($conn->error.__LINE__);	
-
 $admin = $query->fetch_assoc();
+if(isset($_GET['login'])){
 $verifyIFadmin = $_GET['login'];        /*selectam din URL numele de utilizator */
 if ($verifyIFadmin == $admin['usernamesql']){ /*verificam daca user = admin*/
-	header('location: admin.php');           /*redirectionam spre pagina admin*/
+	header('location: admin.php?name=admin');           /*redirectionam spre pagina admin*/
 }
-
+}
 //-----------------------------------------------------------------------------------------------------------
 
 
@@ -20,6 +24,8 @@ $sql = "SELECT * FROM questions";
 $query = $conn->query($sql) or die($conn->error.__LINE__);
 $total = $query->num_rows;
 $_SESSION['total'] = $total; //o vom atribui unei superglobale $_SESSION si pentru a o folosi in process.php pentru a stabili daca am ajuns la finalul tabelului cu intrebari.
+//-----------------------------------------------------------------------------------------------------------
+
 ?>
 
 <!DOCTYPE html>
@@ -33,14 +39,59 @@ $_SESSION['total'] = $total; //o vom atribui unei superglobale $_SESSION si pent
 	<header>
 		<div class="somedetails">	
 		<?php
-		echo 'Buna <strong>'.$_SESSION['username'].'</strong> esti pregatit sa participi la test ?'.'<br>'.' Sa nu uiti ca e-mailul tau este <u> '.$_SESSION['uemail'].'</u> il poti folosi pentru a te loga data viitoare'; 
+
+
+		$sql = "SELECT * FROM users ";													
+		$query = $conn->query($sql) or die($conn->error.__LINE__);
+		if($query->num_rows > 0)
+		{
+			while($profileimage = $query->fetch_assoc())
+			{
+
+			if($profileimage['usernamesql'] == $_SESSION['username'])
+				{
+
+					if($profileimage['score'] == 0){
+
+						echo "<img class='profileimage'src='uploads/cainele.jpg'><br>";
+			}
+					if($profileimage['score'] == 1){
+
+						echo "<img class='profileimage'src='uploads/alien.png'><br>";
+			}
+					if($profileimage['score'] == 2){
+
+						echo "<img class='profileimage'src='uploads/mortysister.png'><br>";
+			}
+					if($profileimage['score'] == 3){
+
+						echo "<img class='profileimage'src='uploads/morty.png'><br>";
+			}
+					if($profileimage['score'] == 4){
+
+						echo "<img class='profileimage'src='uploads/rick.png'><br>";
+			}
+					if($profileimage['score'] >= 5){ //atunci ca adaugam mai multe intrebari
+
+						echo "<img class='profileimage'src='uploads/images.png'><br>";
+			}
+			
+		}
+	}
+
+		echo 'Buna <strong>'.$_SESSION['username'].'</strong> esti pregatit sa participi la test ?'.'<br><br>'.'Imbunatateste-ti scorul la test pentru a castiga un avatar din seria Rick&Morty.';
+		if(isset($_SESSION['message'])){
+			echo '<br><br>'.$_SESSION['message'];
+		}
+	}
 		?>
 		</div>
+	</header>
 		<div class="container">
 			<h1>PHP Quizzer</h1>
 		</div>
 
-	<main>			
+			
 		<div>
 			<h2>Testeaza-ti cunostintele de PHP</h2>
 		</div>
@@ -52,14 +103,21 @@ $_SESSION['total'] = $total; //o vom atribui unei superglobale $_SESSION si pent
 		</ul>
 		<!--Trimitem ulizatorul catre pagina cu intrebari question.php
 		ne vom folosi de n=1 pe pagina question.php unde il redirectionam -->
-		<a href="question.php?n=1" class="start">START!</a> 
-	</main>
-
+		<div class="container">
+		<a href="capitol.php" class="start">START!</a> 
+		<form action="logout.php">
+		<input class="signout" type="submit" value="LOGOUT" action="logout.php">
+		</form>
+		</div>
+	
+</body>
 	<footer>
 			<div class="footer">
 				Copyright &copy; 2020, PHP Quizzer
 			</div>
 	</footer>
-	</header>
-</body>
+	
+
 </html>
+
+<?php }?>

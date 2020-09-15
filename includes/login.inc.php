@@ -34,7 +34,7 @@ else{
 
 		if(empty($row)){
 
-			header("location: ../index.php?error=nosuchemail");
+			header("location: ../index.php?error=NosuchEmail");
 		}
 			elseif (!empty($row) || $row['email']=$emaillogin){
 
@@ -49,6 +49,11 @@ else{
 						
 						$_SESSION['uemail'] = $row['email'];
 						$_SESSION['username'] =$row['usernamesql'];
+						$_SESSION['logged_in'] = true;
+						
+						if($row['active'] == 0){
+						$_SESSION['message'] ='<br> Va rugam sa va verificati contul prin link-ul trimis pe mail';
+						}
 						header("location: ../profile.php?login=".$_SESSION['username']);// introducem in URL cine e utilizatorul pentru a-l redirectiona de pe profile.php pe admin.php in cazul in care este admin.
 						exit();
 					}

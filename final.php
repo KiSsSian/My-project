@@ -1,6 +1,11 @@
 <?php
 session_start();
 require 'db.php';
+
+if($_SESSION['logged_in'] != 1){
+		header("location: index.php");
+}else
+	{
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,10 +39,11 @@ require 'db.php';
 				}	
 //------eliberam variabila pentru a nu cumula scorul----------------------------------------------------------------------------			
 				unset($_SESSION['score']);
-?> 
+				
+}?> 
 				</p>
 				<form method="POST" action="leaderboard.php">
-				<input type="submit" value="LEADERBOARD">
+				<input type="submit" value="LEADERBOARD" class="start">
 				</form>
 	</main>
 	<footer>

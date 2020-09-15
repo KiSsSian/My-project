@@ -1,17 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
-body {
+body{
 	background: #f6f5f7;
 	display: flex;
-	margin-top:80px;
 	align-items: center;
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
-	height: 90vh;
+	height:90vh;
+	max-width: 800px;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+	}
 
-}
 footer{
 	background-color: #222;
+	text-align: center;
     color: #fff;
     font-size: 14px;
     bottom: 0;
@@ -20,85 +24,116 @@ footer{
     right: 0;
     height: 50px;
     text-align: center;
+
 }
 
-
-body .somedetails{
-	background: #f5f7;
+.somedetails{
 	max-width: 500px
+
 }
 
-main{
-	max-width: 800px;
-	text-align: center;
+.profileimage{
+	margin-top: 0;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 125px;
+	height: 125px;
+	border-radius: 50%;
+	background: #f6f5;
+	background-size: cover;
 }
-
-a.start{
-border-radius: 20px;
-border: 1px solid #FF4B2B;
+.start
+{
 background-color: #FF4B2B;
+margin: 80px 0px;
+border-radius: 20px;
+border: 1px solid;
 color: #FFFFFF;
 font-size: 20px;
 font-weight: bold;
 padding: 12px 45px;
 letter-spacing: 1px;
-text-transform: uppercase;
-position: relative;
-top: 120px;
+outline-style: none;
 }
 
-main li{
+input[type="submit"].start
+{
+background-color: #FF4B2B;
+margin: 80px 0px;
+border-radius: 20px;
+border: 1px solid;
+color: #FFFFFF;
+font-size: 20px;
+font-weight: bold;
+padding: 12px 45px;
+letter-spacing: 1px;
+outline-style: none;
+}
+
+li{
 	margin-top: 7px;
 	font-weight: bold;
 	list-style: none;
 }
 
-main ul{
-	margin-top: 70px;
+ul{
+	margin-top: 40px;
 	text-align: left;
 }
+
 .current{
 	padding: 10px;
 	background: #f5f7;
 	border:#ccc dotted 1px;
 	margin:20px 0 10px 0;
-
 }
-input[type=submit]
+
+.container{
+display: flex;
+justify-content: center;
+}
+
+
+
+input[type="submit"].signout
 {
+background-color: blue;
 margin: 80px 0px;
 border-radius: 20px;
-border: 1px solid #FF4B2B;
-background-color: #FF4B2B;
+border: 1px solid;
 color: #FFFFFF;
 font-size: 20px;
 font-weight: bold;
 padding: 12px 45px;
 letter-spacing: 1px;
+outline-style: none;
 }
-input[type=text]{
+
+input[type="text"]{
 	width: 800px;
 	padding:4px;
 	border-radius: 5px;
 	border: 1px #ccc solid;
-	
 }
-input[type=number]{
+
+input[type="number"]{
 	width: 50px; 
 	padding:4px;
 	border-radius: 5px;
 	border: 1px #ccc solid;
 	}
+
 .admincurrent
 {
-	max-width: 500px;
-	flex-direction: column;
-
-	padding: 10px;
+	
+	justify-content: center;
 	background: #1E90FF;
 	border:#ccc dotted 1px;
-	margin:20px 0 20px 145px;
+	margin-left: auto;
+	margin-right: auto;
 }
+
 label{
 	display: inline-block;
 	width:180px;

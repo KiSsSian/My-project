@@ -40,21 +40,20 @@
 					elseif($_GET['error'] == "invalidMail"){
 							echo '<p>Invalid mail</p>';
 						}
+					elseif($_GET['error'] == "invalidUsername"){
+							echo '<p>Please insert a valid username</p>';
+						}
 					elseif($_GET['error'] == "wrongpwd"){
 							echo '<p>Wrong password</p>';
 						}
 					elseif($_GET['error'] == "usernameTaken"){
-							echo '<p>Username or password already taken</p>';
+							echo '<p>Username/Password already taken</p>';
 						}
-					elseif($_GET['error'] == "nosuchemail"){
+					elseif($_GET['error'] == "NosuchEmail"){
 							echo '<p>This email is not registered yet</p>';
 						}
 					}
-
-
-
-
-
+					
 					?>
 
 					
