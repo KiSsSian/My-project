@@ -1,12 +1,13 @@
 <?php
 include 'db.php';
-
 session_start();
+header("Cache-Control: no cache");
 
 if($_SESSION['logged_in'] != 1){
 		header("location: index.php");
 }else
 	{
+		
 echo '<b>Username: </b>'.$_SESSION['username']; 
 
 		if(isset($_POST['capitol']))
@@ -15,12 +16,14 @@ echo '<b>Username: </b>'.$_SESSION['username'];
 		$_SESSION['raspunsuri_capitol'] = $chapter_answers;
 		$_SESSION['x'] = $chapter_selected;
 		$_SESSION['y'] = $chapter_answers;
+		$_SESSION['number'] = 1;
+		 unset($_POST);
 		}
-
+		
 $chapter_selected2=$_SESSION['x'];
 $chapter_answers2=$_SESSION['y'];
 
-$number = $_GET['n'];
+
 
 $sql="SELECT * FROM $chapter_selected2";
 $query = $conn->query($sql) or die($conn->error.__LINE__);
@@ -29,7 +32,7 @@ $num_rows = $query->num_rows;
 $_SESSION['total_questions'] = $num_rows;
 
 
-$sql = "SELECT * FROM $chapter_answers2 WHERE answer_FK=$number ";
+$sql = "SELECT * FROM $chapter_answers2 WHERE answer_FK='".$_SESSION['number']."' ";
 $choices = $conn->query($sql) or die($conn->error.__LINE__); 
 
 ?>
@@ -48,24 +51,24 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 	</header>
 	<main>	
 		<div>
-			<div class="current"> Question <?php echo $number;?> out of <?php echo $num_rows;?> </div>
+			<div class="current"> Question <?php echo $_SESSION['number'];?> out of <?php echo $num_rows;?> </div>
 			<p>
 			<?php 
 			
-			$sql="SELECT question_text FROM $chapter_selected2 WHERE id_question=$number";
-			$query = $conn->query($sql) or die($conn->error.__LINE__);
+			$sql="SELECT question_text FROM $chapter_selected2 WHERE id_question='".$_SESSION['number']."' ";
+			$query = $conn->query($sql) or die();
 			$result = $query->fetch_assoc();
 
 				echo $result['question_text']; ?>
 						</p>
-				<form method="POST" action="process.php?n=<?= $number; ?>">
+				<form method="POST" action="process.php">
 					<ul>
 						<?php $i=0; ?>	
 						<?php while($row = $choices->fetch_assoc()){ 
 						?> 
 						
-					<li><input type="hidden" name="choice[<?= $i ?>]" value="0"></li>	
-					<li><input type="checkbox" name="choice[<?= $i ?>]" value="1"><?= $row['choice'];?></li>
+					<li><input type="hidden" name="choice[<?= $i ?>]" value="0" autocomplete="off"></li>	
+					<li><input type="checkbox" name="choice[<?= $i ?>]" value="1" autocomplete="off"><?= $row['choice'];?></li>
 
 						<?php $i++;
 
@@ -76,7 +79,7 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 					</ul>
 	
 		<input type="submit" value="SUBMIT" class="start">
-		<input type="hidden" name="number" value="<?php echo $number;?>">
+		<input type="hidden" name="number" value="<?php echo $_SESSION['number'];?>">
 		</form>	
 	</div>
 	</main>

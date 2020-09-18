@@ -1,5 +1,6 @@
 <?php
 session_start();
+header("Cache-Control: no cache");
 require 'db.php';
 
 if($_SESSION['logged_in'] != 1){

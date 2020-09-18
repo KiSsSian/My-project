@@ -16,7 +16,7 @@ $query= $conn->query($sql);
 	<body>
 	
 	
-<form method="POST" action="question.php?n=1">
+<form method="POST" action="question.php">
 
 	<?php
 	while($chapter_name= $query-> fetch_assoc()){

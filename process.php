@@ -5,8 +5,11 @@ include 'db.php';
 
 
 $chapter_answers = $_SESSION['raspunsuri_capitol'];
-$number = $_GET['n'];
-$next=$number+1;
+
+
+$next=$_SESSION['number']+1;
+
+
 	if(!isset($_SESSION['score'])) { 
 		$_SESSION['score'] = 0;
 	}
@@ -18,7 +21,7 @@ $next=$number+1;
 			$selected_choice=$_POST['choice'];
 			
 			$sql = "SELECT is_correct FROM $chapter_answers
-		 	WHERE  answer_FK=$number ";
+		 	WHERE  answer_FK='".$_SESSION['number']."' ";
 
 		 	$query = $conn->query($sql) or die($conn->error.__LINE__);
 		 						
@@ -35,13 +38,16 @@ $next=$number+1;
 			}
 	
 }
-if($number == $_SESSION['total_questions']){
 
+if($_SESSION['number'] == $_SESSION['total_questions']){
+	
 	header("location: final.php");
+	die();
 
 }else{
+	$_SESSION['number']++;
 
-header("location: question.php?n=$next");
-
+header("location: question.php");
+die();
 }
 ?>

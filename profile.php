@@ -20,7 +20,7 @@ if ($verifyIFadmin == $admin['usernamesql']){ /*verificam daca user = admin*/
 
 
 //------------------aflam numarul total de intrebari pentru a afisa dinamic timpul estimativ-----------------
-$sql = "SELECT * FROM questions";
+$sql = "SELECT id_question FROM chirurgie";
 $query = $conn->query($sql) or die($conn->error.__LINE__);
 $total = $query->num_rows;
 $_SESSION['total'] = $total; //o vom atribui unei superglobale $_SESSION si pentru a o folosi in process.php pentru a stabili daca am ajuns la finalul tabelului cu intrebari.
