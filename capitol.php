@@ -29,7 +29,7 @@ $query= $conn->query($sql);
 <?php
 }
 ?>
-<input type="submit" value="SUBMIT" class="start">
+<input type="submit" name="submit" value="SUBMIT" class="start">
 </form>
 </body>
 <footer>

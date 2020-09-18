@@ -8,18 +8,22 @@ if($_SESSION['logged_in'] != 1){
 }else
 	{
 		
-echo '<b>Username: </b>'.$_SESSION['username']; 
 
-		if(isset($_POST['capitol']))
-		{
+		
+
+		if(!isset($_POST['capitol']) and isset($_POST['submit'])) {
+			header('location: capitol.php');
+		}
+		if(isset($_POST['capitol']) and isset($_POST['submit'])) {
 		list($chapter_selected,$chapter_answers) = explode('|', $_POST['capitol']);
+		
 		$_SESSION['raspunsuri_capitol'] = $chapter_answers;
 		$_SESSION['x'] = $chapter_selected;
 		$_SESSION['y'] = $chapter_answers;
 		$_SESSION['number'] = 1;
-		 unset($_POST);
-		}
 		
+		}
+echo '<b>Username: </b>'.$_SESSION['username']; 
 $chapter_selected2=$_SESSION['x'];
 $chapter_answers2=$_SESSION['y'];
 
@@ -72,7 +76,7 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 
 						<?php $i++;
 
-					};
+					}
 					}
 					?>
 							
