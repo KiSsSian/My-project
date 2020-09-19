@@ -6,49 +6,6 @@ if($_SESSION['logged_in'] != 1 || $_GET['name'] != 'admin' ){
 		header("location: index.php");
 }else
 	{
-if(isset($_POST['regintrebare'])){
-	$question_number = $_POST['question_number'];
-	$question_text = $_POST['question_text'];
-	$correct_choice =$_POST['correct_choice'];
-	$choices = array(); //cream un associative array pe care il folosim in foreach
-	$choices[1] = $_POST['choice1'];
-	$choices[2] = $_POST['choice2'];
-	$choices[3] = $_POST['choice3'];
-	$choices[4] = $_POST['choice4'];
-
-	//introducem in baza de date intrebarea
-	$sql = "INSERT INTO questions (question_number, text) 
-				VALUES ('$question_number','$question_text')";
-	$query = $conn->query($sql) or die($conn->error.__LINE__);
-	if($query) 
-	{
-		foreach ($choices as $choice => $value) { // fiecare valoare e verificata sa nu fie goala si daca e varianta corecta
-			if($value != ''){
-				if($correct_choice == $choice){ 
-					$is_correct = 1;
-				}else {
-					$is_correct = 0;
-				} // introducem variantele 
-			$sql = "INSERT INTO choices (question_number, is_correct, text) 
-				VALUES ('$question_number', '$is_correct', '$value')";
-
-			$query = $conn->query($sql) or die($conn->error.__LINE__);
-
-			if($query){
-				continue;
-			}else{
-				die('Error : ('.$conn->errno.')').$conn->error;
-			}
-		}
-		}
-		$msg ='Intrebarea a fost adaugata';
-	}
-}
-
-$sql = "SELECT * FROM questions";
-$questions = $conn->query($sql) or die($conn->error.__LINE__);
-$total = $questions->num_rows;
-$next = $total+1;
 ?>
 
 <!DOCTYPE html>
@@ -72,11 +29,29 @@ $next = $total+1;
 				echo '<p>'.$msg.'</p>';
 		?>
 		</div>
-			<form method="POST" action="admin.php">
+			<form method="POST" action="admin_process.php">
+				<p>Capitolul in care vrei sa introduci intrebarea: </p>
+					
+					<?php 
+					$sql = "SELECT * FROM nume_capitol";
+					$chapters = $conn->query($sql) or die();
+					$total_chapters = $chapters->num_rows;
+
+					if($total_chapters>0){ ?>
+						
+						
+						<?php while($result = $chapters->fetch_assoc()){ ?>
+							 <input name="chapter" type="radio" value="<?php echo $result['nume_capitol']; ?>"><?php echo $result['nume_capitol']; ?>
+
+						<?php } ?>
+
+
+					<?php } ?>
+					
 				
 				<p>
 					<label>Numarul intrebarii: </label>
-					<input type="number" value="<?php echo $next; ?>" name="question_number" />
+					<input type="number" name="question_number" />
 				</p>
 				<p>
 					<label>Intrebarea: </label>
@@ -99,10 +74,18 @@ $next = $total+1;
 					<input type="text" name="choice4" />
 				</p>
 				<p>
-					<label>Varianta corecta: </label>
-					<input type="number" name="correct_choice" />
+					<label>Varianta #5: </label>
+					<input type="text" name="choice5" />
 				</p>
-				<input type="submit" value="SUBMIT">
+				<p>
+					<label>Varianta corecta: </label>
+					<input type="number" name="correct_choice1" />
+					<input type="number" name="correct_choice2" />
+					<input type="number" name="correct_choice3" />
+					<input type="number" name="correct_choice4" />
+					<input type="number" name="correct_choice5" />
+				</p>
+				<input type="submit" value="SUBMIT" name="submit">
 			</form>
 		
 	

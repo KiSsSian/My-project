@@ -72,7 +72,7 @@ Verificam daca datele introduse de utilizator in input-ul din index.php
 
 					 $subject= "Verificare cont localhost.com";
 
-					 $body='Buna'.$username.',Multumim ca te-ai inregistrat!Apasa pe acest link pentru a-ti activa contul: http://localhost/quizzer/verify.php?email='.$email.'&hash='.$hash.".";  
+					 $body='Buna'.$username.',Multumim ca te-ai inregistrat!Apasa pe acest link pentru a-ti activa contul: http://localhost/quizzer/verify.php?email='.$email.'&hash='.$hash;  
 					$headers = "From: drcristian92@gmail.com";
 
 					if (mail($to, $subject, $body, $headers)) {

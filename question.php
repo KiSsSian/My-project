@@ -54,7 +54,7 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 		</div>
 	</header>
 	<main>	
-		<div>
+		<div class="container-question">
 			<div class="current"> Question <?php echo $_SESSION['number'];?> out of <?php echo $num_rows;?> </div>
 			<p>
 			<?php 
@@ -64,7 +64,7 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 			$result = $query->fetch_assoc();
 
 				echo $result['question_text']; ?>
-						</p>
+			</p>
 				<form method="POST" action="process.php">
 					<ul>
 						<?php $i=0; ?>	

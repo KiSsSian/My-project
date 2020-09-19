@@ -37,6 +37,7 @@ $_SESSION['total'] = $total; //o vom atribui unei superglobale $_SESSION si pent
 </head>
 <body>
 	<header>
+	<div class="profile-container">
 		<div class="somedetails">	
 		<?php
 
@@ -110,6 +111,7 @@ $_SESSION['total'] = $total; //o vom atribui unei superglobale $_SESSION si pent
 		</form>
 		</div>
 	
+	
 </body>
 	<footer>
 			<div class="footer">
@@ -117,7 +119,7 @@ $_SESSION['total'] = $total; //o vom atribui unei superglobale $_SESSION si pent
 			</div>
 	</footer>
 	
-
+</div>
 </html>
 
 <?php }?>
