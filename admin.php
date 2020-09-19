@@ -2,7 +2,7 @@
 include 'db.php';
 session_start();
 
-if($_SESSION['logged_in'] != 1 || $_GET['name'] != 'admin' ){
+if($_SESSION['logged_in'] != 1 || $_GET['name'] != 'admin'){
 		header("location: index.php");
 }else
 	{

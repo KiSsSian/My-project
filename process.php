@@ -29,7 +29,7 @@ $next=$_SESSION['number']+1;
 				$correct_choice[]=$row['is_correct'];
 			
 			}
-				for ($i=0; $i <=3 ; $i++) { 
+				for ($i=0; $i <=4 ; $i++) { 
 					
 			if($selected_choice[$i] === $correct_choice[$i])
 				{
