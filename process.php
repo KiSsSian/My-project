@@ -20,13 +20,15 @@ $next=$_SESSION['number']+1;
 				 
 			$selected_choice=$_POST['choice'];
 			
-			$sql = "SELECT is_correct FROM $chapter_answers
+
+			$sql = "SELECT * FROM $chapter_answers
 		 	WHERE  answer_FK='".$_SESSION['number']."' ";
 
 		 	$query = $conn->query($sql) or die($conn->error.__LINE__);
 		 						
 			while($row = $query->fetch_assoc()){
 				$correct_choice[]=$row['is_correct'];
+				$_SESSION['raspunsuri_corecte'][]=$row['choice'];
 			
 			}
 				for ($i=0; $i <=4 ; $i++) { 
@@ -42,7 +44,7 @@ $next=$_SESSION['number']+1;
 if($_SESSION['number'] == $_SESSION['total_questions']){
 	
 	header("location: final.php");
-	die();
+	
 
 }else{
 	$_SESSION['number']++;

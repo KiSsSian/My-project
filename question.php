@@ -24,15 +24,16 @@ if($_SESSION['logged_in'] != 1){
 		
 		}
 echo '<b>Username: </b>'.$_SESSION['username']; 
+
+
 $chapter_selected2=$_SESSION['x'];
 $chapter_answers2=$_SESSION['y'];
-
-
 
 $sql="SELECT * FROM $chapter_selected2";
 $query = $conn->query($sql) or die($conn->error.__LINE__);
 $result = $query->fetch_assoc();
 $num_rows = $query->num_rows;
+$_SESSION['num_rows'] = $num_rows;
 $_SESSION['total_questions'] = $num_rows;
 
 
@@ -50,7 +51,7 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 <body>
 	<header>
 		<div class="container">
-			<h1>PHP Quizzer</h1>
+			<h1>REZI2020 Quizzer</h1>
 		</div>
 	</header>
 	<main>	
@@ -95,3 +96,12 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 	</footer>
 
 </html>
+<?php
+if(isset($_SESSION['score'])){
+echo '<br>'.'Your score is:  '.$_SESSION['score'].' out of '.($num_rows*5).' correct ';
+$percentage =round(($_SESSION['score']*100)/($num_rows*5));
+echo '<br>'.$percentage.' % ';
+$_SESSION['percentage'] = $percentage;
+
+}
+?>

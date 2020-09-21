@@ -23,7 +23,8 @@ $query= $conn->query($sql);
 	?>
 
 	<ul>
-	<li><input type="radio" name="capitol" value="<?php echo $chapter_name['nume_capitol']; ?>|<?php echo $chapter_name['nume_variante'];?>"><?php echo $chapter_name['nume_capitol'];?></li>
+	<li><input type="radio" name="capitol" value="<?php echo $chapter_name['nume_capitol'];?>|<?php echo $chapter_name['nume_variante'];?>"><?php echo $chapter_name['nume_capitol'];?>
+	</li>
 	
 	</ul>
 <?php

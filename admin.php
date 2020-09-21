@@ -2,7 +2,7 @@
 include 'db.php';
 session_start();
 
-if($_SESSION['logged_in'] != 1 || $_GET['name'] != 'admin'){
+if($_SESSION['logged_in'] != 1 /*|| $_GET['name'] != 'admin' */){
 		header("location: index.php");
 }else
 	{
@@ -30,7 +30,7 @@ if($_SESSION['logged_in'] != 1 || $_GET['name'] != 'admin'){
 		?>
 		</div>
 			<form method="POST" action="admin_process.php">
-				<p>Capitolul in care vrei sa introduci intrebarea: </p>
+				<p><b>Capitolul in care vrei sa introduci intrebarea: </b></p>
 					
 					<?php 
 					$sql = "SELECT * FROM nume_capitol";
@@ -41,7 +41,7 @@ if($_SESSION['logged_in'] != 1 || $_GET['name'] != 'admin'){
 						
 						
 						<?php while($result = $chapters->fetch_assoc()){ ?>
-							 <input name="chapter" type="radio" value="<?php echo $result['nume_capitol']; ?>"><?php echo $result['nume_capitol']; ?>
+							 <input name="chapter" type="radio" value="<?php echo $result['nume_capitol']; ?>"><?php echo $result['nume_capitol']; ?><br>
 
 						<?php } ?>
 

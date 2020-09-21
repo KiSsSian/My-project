@@ -18,7 +18,7 @@ if($_SESSION['logged_in'] != 1){
 <body>
 	<header>
 		<div class="container">
-			<h1>PHP Quizzer</h1>
+			<h1>REZI Quizzer</h1>
 		</div>
 	</header>
 	<main>
@@ -26,22 +26,27 @@ if($_SESSION['logged_in'] != 1){
 			<h2>Ai terminat !</h2>
 		</div>
 				<p> Felicitari ! </p>
-				<p>Scor final: <?php echo $_SESSION['score']; //afisam scorul
+				<p>Scor final: <?php echo $_SESSION['score']; 
 				
-//------------------------------------------------------------------------------------------------------------------------------
+
 		$user = $_SESSION['username'];
 		$finalscore = $_SESSION['score'];
-//-------selectam username si scorul--------------------------------------------------------------------------------------------
+
 		$checkexists = $conn->query("SELECT usernamesql, score FROM users WHERE usernamesql='$user'");
 		$row = $checkexists->fetch_assoc();
-//-------comparam scorul din test cu scorul obtinut in trecut, daca e nou inregistrat are 0 prestablit--------------------------			
+
 				if($finalscore > $row['score']){
 					$sql = $conn->query("UPDATE users SET score=$finalscore WHERE usernamesql='$user'");
 				}	
-//------eliberam variabila pentru a nu cumula scorul----------------------------------------------------------------------------			
+
+				echo '<br>';
+				echo round(($_SESSION['score']*100)/($_SESSION['num_rows']*5)).' %';
+		
 				unset($_SESSION['score']);
+				unset($_SESSION['percentage']);
+				$_SESSION['logged_in'] = 0;
 				
-}?> 
+		}?> 
 				</p>
 				<form method="POST" action="leaderboard.php">
 				<input type="submit" value="LEADERBOARD" class="start">
