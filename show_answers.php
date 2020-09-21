@@ -1,6 +1,16 @@
 <script language="javascript" type="text/javascript">
 		window.history.forward();
 </script>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="css/profile.css" />
+	
+</head>
+<body>
+
 <?php 
 session_start();
 header("Cache-Control: no cache");
@@ -17,26 +27,16 @@ foreach ($_SESSION['selected_choice_text'] as $key => $value) {
 if($_SESSION['number']< $_SESSION['total_questions']){
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<link rel="stylesheet" href="css/profile.css" />
-	
-</head>
-<body>
 	<form method="POST" action="question.php">
 <input type="submit" name="button_next" value="NEXT QUESTION">
 	</form>
-</body>
-</html>
+
 
 <?php 
 }
 	
 	if($_SESSION['number'] == $_SESSION['total_questions']){
 
-	
 	?>
 <p> You finished the test, congrats!! Head for the final page</p>
 <a href="final.php"> FINAL PAGE</a>
@@ -45,3 +45,6 @@ if($_SESSION['number']< $_SESSION['total_questions']){
 }
 
 ?>
+
+</body>
+</html>
