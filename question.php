@@ -1,3 +1,6 @@
+<script language="javascript" type="text/javascript">
+		window.history.forward();
+</script>
 <?php
 include 'db.php';
 session_start();
@@ -8,9 +11,6 @@ if($_SESSION['logged_in'] != 1){
 }else
 	{
 		
-
-		
-
 		if(!isset($_POST['capitol']) and isset($_POST['submit'])) {
 			header('location: capitol.php');
 		}
@@ -23,8 +23,10 @@ if($_SESSION['logged_in'] != 1){
 		$_SESSION['number'] = 1;
 		
 		}
-echo '<b>Username: </b>'.$_SESSION['username']; 
 
+		
+
+echo '<b>Username: </b>'.$_SESSION['username']; 
 
 $chapter_selected2=$_SESSION['x'];
 $chapter_answers2=$_SESSION['y'];
@@ -36,6 +38,11 @@ $num_rows = $query->num_rows;
 $_SESSION['num_rows'] = $num_rows;
 $_SESSION['total_questions'] = $num_rows;
 
+if(isset($_POST['button_next']))
+{
+$_SESSION['number']++;
+ header('Location: ' . $_SERVER['PHP_SELF']); //  WTF merge ??? tre sa aflu ce face
+} 
 
 $sql = "SELECT * FROM $chapter_answers2 WHERE answer_FK='".$_SESSION['number']."' ";
 $choices = $conn->query($sql) or die($conn->error.__LINE__); 
@@ -73,7 +80,7 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 						?> 
 						
 					<li><input type="hidden" name="choice[<?= $i ?>]" value="0" autocomplete="off"></li>	
-					<li><input type="checkbox" name="choice[<?= $i ?>]" value="1" autocomplete="off"><?= $row['choice'];?></li>
+					<li><input type="checkbox" name="choice[<?= $i ?>]" value="1|<?= $row['choice'];?>" autocomplete="off"><?= $row['choice'];?></li>
 
 						<?php $i++;
 
@@ -103,5 +110,6 @@ $percentage =round(($_SESSION['score']*100)/($num_rows*5));
 echo '<br>'.$percentage.' % ';
 $_SESSION['percentage'] = $percentage;
 
+unset($_SESSION['back_browser']);
 }
 ?>

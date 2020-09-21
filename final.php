@@ -41,10 +41,11 @@ if($_SESSION['logged_in'] != 1){
 
 				echo '<br>';
 				echo round(($_SESSION['score']*100)/($_SESSION['num_rows']*5)).' %';
-		
-				unset($_SESSION['score']);
-				unset($_SESSION['percentage']);
-				$_SESSION['logged_in'] = 0;
+						
+			
+				// unset($_SESSION['score']);
+				// unset($_SESSION['percentage']);
+				// $_SESSION['logged_in'] = 0;
 				
 		}?> 
 				</p>

@@ -2,6 +2,7 @@
 include 'db.php';
 session_start();
 
+$_SESSION['backbrowser'] = true;
 
 $sql="SELECT * FROM nume_capitol";
 $query= $conn->query($sql);
