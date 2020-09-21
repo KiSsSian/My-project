@@ -22,8 +22,7 @@ $next=$_SESSION['number']+1;
 				if($value != 0 || $value != NULL){
 			
 			list($sort,$_SESSION['selected_choice_text'][]) = explode('|', $value);
-				}
-								
+				}				
 		} 
 
 
@@ -42,6 +41,17 @@ $next=$_SESSION['number']+1;
 					 $_SESSION['score']= $_SESSION['score']+1;
 				} 
 			}
+			//selectam toate raspunsurile corecte ale intrebarii curente intr-un vector
+			$numar_intrebare = $_SESSION['number'];
+			$sql = "SELECT choice FROM $chapter_answers WHERE  answer_FK=$numar_intrebare AND is_correct=1";
+		 	$query = $conn->query($sql) or die($conn->error.__LINE__);
+		 
+		 	while($rand = $query->fetch_assoc()){	
+		 		 		
+		 	$_SESSION['correct_choice_text'][] = $rand['choice'];
+		 	
+		 	}
+		 				
 header("location: show_answers.php");	
 }
 

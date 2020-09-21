@@ -15,11 +15,11 @@ if($_SESSION['logged_in'] != 1){
 			header('location: capitol.php');
 		}
 		if(isset($_POST['capitol']) and isset($_POST['submit'])) {
-		list($chapter_selected,$chapter_answers) = explode('|', $_POST['capitol']);
+		list($chapter_selected,$chapter_answers) = explode('|', $_POST['capitol']); //selectam tabelul cu intrebarile in $chapter_selected si tabelul cu raspunsrui in $chapter_answers
 		
 		$_SESSION['raspunsuri_capitol'] = $chapter_answers;
-		$_SESSION['x'] = $chapter_selected;
-		$_SESSION['y'] = $chapter_answers;
+		$_SESSION['tabel_intrebari'] = $chapter_selected;
+		$_SESSION['tabel_raspunsuri'] = $chapter_answers;
 		$_SESSION['number'] = 1;
 		
 		}
@@ -28,9 +28,10 @@ if($_SESSION['logged_in'] != 1){
 
 echo '<b>Username: </b>'.$_SESSION['username']; 
 
-$chapter_selected2=$_SESSION['x'];
-$chapter_answers2=$_SESSION['y'];
+$chapter_selected2=$_SESSION['tabel_intrebari'];
+$chapter_answers2=$_SESSION['tabel_raspunsuri'];
 
+//iteram baza de date pentru a afla nr total de intrebari din capitol
 $sql="SELECT * FROM $chapter_selected2";
 $query = $conn->query($sql) or die($conn->error.__LINE__);
 $result = $query->fetch_assoc();
@@ -41,7 +42,7 @@ $_SESSION['total_questions'] = $num_rows;
 if(isset($_POST['button_next']))
 {
 $_SESSION['number']++;
- header('Location: ' . $_SERVER['PHP_SELF']); //  WTF merge ??? tre sa aflu ce face
+ header('Location: ' . $_SERVER['PHP_SELF']); 
 } 
 
 $sql = "SELECT * FROM $chapter_answers2 WHERE answer_FK='".$_SESSION['number']."' ";
@@ -71,7 +72,9 @@ $choices = $conn->query($sql) or die($conn->error.__LINE__);
 			$query = $conn->query($sql) or die();
 			$result = $query->fetch_assoc();
 
-				echo $result['question_text']; ?>
+				echo $result['question_text']; 
+				$_SESSION['question_text'] = $result['question_text'];
+				?>
 			</p>
 				<form method="POST" action="process.php">
 					<ul>
